@@ -1,0 +1,16 @@
+# Child repos live under internal/ and external/ as independent git repos.
+# They are registered in repo-registry/, never tracked by the harness.
+internal/*
+!internal/README.md
+external/*
+!external/README.md
+
+# Local agent-runtime state stays local.
+.claude/settings.json
+.claude/settings.local.json
+.claude/CLAUDE.local.md
+.claude/mcp-servers.json
+
+# OS noise.
+.DS_Store
+Thumbs.db
