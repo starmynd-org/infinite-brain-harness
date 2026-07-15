@@ -22,6 +22,9 @@ that shape.
 Coverage rule: every child directory directly under `internal/` or `external/` (or under an
 external group folder) has exactly one entry here. An unregistered child is a posture
 violation. An entry whose directory no longer exists is stale; archive or delete it.
+Underscore-prefixed files (`_template.md`, `_example-company-brain.md`) are not live
+entries and never count toward coverage or routing; a live entry is a `<slug>.md` file with
+no underscore prefix.
 
 Entries are created by the four-step procedure in `ADD-A-BRAIN.md`, from `_template.md`.
 The `register-repo` command executes the same procedure.
@@ -39,8 +42,12 @@ Every entry records nine fields:
 | brain_tier | `individual`, `department`, or `company` | only when `repo_kind` is `brain` or `mixed`; the line is omitted for `app` |
 | primary_job | one sentence | what the repo is for |
 | status | `active`, `supporting`, or `archived` | `active` is worked in; `supporting` is referenced but not driven; `archived` is kept for record only |
-| remote | the origin URL, or `local-only` | the child's backup story lives here |
+| remote | the origin URL, or `local-only` | the child's backup story: a remote you can push to, or `local-only`; for starter clones see `ADD-A-BRAIN.md` step 2 |
 | added | the date the entry was created | |
+
+On `repo_kind`: `mixed` marks a repo that carries a real brain entity layer alongside
+substantial application code. Classify a repo as `brain` or `app` first, and use `mixed`
+only when neither is honest.
 
 Each entry ends with a `## Notes` section for risks, caveats, and boundaries. A healthy
 entry with nothing to flag writes the single word "None" rather than leaving it empty.
@@ -48,5 +55,5 @@ entry with nothing to flag writes the single word "None" rather than leaving it 
 ## Files here
 
 - `_template.md`: the entry template; copy it to `<slug>.md` and fill every field
-- `example-company-brain.md`: a worked example, a brain starter clone registered as the
-  company brain of a fictional company
+- `_example-company-brain.md`: a worked example, a brain starter clone registered as the
+  company brain of the fictional Examplecorp; not a live entry, per the coverage rule

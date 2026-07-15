@@ -50,13 +50,24 @@ Brains in a harness come in three tiers, and the harness grows through them in o
 ## Quickstart
 
 1. Clone this repository to the place you want your repos root to live, and open a shell at
-   its root.
+   its root:
+
+   ```sh
+   git clone https://github.com/starmynd-org/infinite-brain-harness.git repos
+   ```
+
+   (That URL is the proposed public home of this repository; if it was published under a
+   different name, use the URL you actually cloned from.)
+
 2. Clone the public brain starter as your company brain, under the slug you want it to
    carry. For a company called Acme:
 
    ```sh
    git clone https://github.com/starmynd-org/infinite-brain-os.git internal/acme-brain
    ```
+
+   As a health check on the fresh clone, run the starter's own validation script from
+   inside it: `bash _system/validate.sh`, run in `internal/acme-brain`, should exit 0.
 
 3. Register it. Follow the four-step procedure in `ADD-A-BRAIN.md`, or run the
    `register-repo` command from Claude Code, which executes the same procedure. The result

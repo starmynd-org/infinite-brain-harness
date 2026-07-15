@@ -38,6 +38,16 @@ git clone https://github.com/starmynd-org/infinite-brain-os.git internal/acme-br
 
 The slug you choose here is the slug the registry entry carries. Pick it once and keep it.
 
+For a brain cloned from the public starter, run the starter's own validation script from
+inside the fresh clone as a health check:
+
+```sh
+bash _system/validate.sh
+```
+
+It should exit 0 on a fresh clone. The brain's own startup documentation covers validation
+from then on; the harness never validates its children itself.
+
 ### Step 2: Create the registry entry
 
 Copy `repo-registry/_template.md` to `repo-registry/<slug>.md` and fill every field. The
@@ -47,7 +57,24 @@ fields and their allowed values are listed inline in the template and explained 
 - a brain must declare its tier (`individual`, `department`, or `company`)
 - an app must not carry a tier: omit the `brain_tier` line entirely
 
-`repo-registry/example-company-brain.md` shows a complete, correctly filled entry for a
+One field needs care when the child was cloned from the public starter: `remote`. A fresh
+starter clone's origin still points at the public starter, a repository you cannot push to,
+so it is not this child's backup story. Do one of two things before you fill the field:
+
+- create an empty repository of your own, re-point origin at it, push, and record that URL:
+
+  ```sh
+  git -C internal/<slug> remote set-url origin <your-remote-url>
+  git -C internal/<slug> push -u origin main
+  ```
+
+- or record `remote: local-only` until you have one, and treat the brain as having no
+  backup in the meantime.
+
+Recording the public starter's URL as the `remote` would record a backup story that does
+not exist.
+
+`repo-registry/_example-company-brain.md` shows a complete, correctly filled entry for a
 company brain.
 
 ### Step 3: Commit the registry entry
