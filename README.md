@@ -56,8 +56,8 @@ Brains in a harness come in three tiers, and the harness grows through them in o
    git clone https://github.com/starmynd-org/infinite-brain-harness.git repos
    ```
 
-   (That URL is the proposed public home of this repository; if it was published under a
-   different name, use the URL you actually cloned from.)
+   (That URL is the public home of this repository; if you cloned it from a fork or a
+   mirror, use the URL you actually cloned from.)
 
 2. Clone the public brain starter as your company brain, under the slug you want it to
    carry. For a company called Acme:
