@@ -1,0 +1,10 @@
+# Which brains this workspace mounts under brains/. One "folder = git-remote-url" per line.
+# Copy this file to .claude/brains.conf (which stays local, git-ignored) and fill in your remotes,
+# or just run /start and it will ask you and write the file for you.
+#
+# The shared brain (a company or department brain). If you have none yet, clone the public starter
+# as your company brain first: https://github.com/starmynd-org/infinite-brain-os.git
+acme-brain = https://github.com/your-org/acme-brain.git
+
+# Your individual brain. Name the folder individual-<your-name>.
+individual-you = https://github.com/your-org/individual-you.git
