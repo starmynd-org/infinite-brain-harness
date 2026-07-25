@@ -37,6 +37,10 @@ in your individual brain; proven work is promoted up, never edited into the shar
 
 ### Quickstart
 
+Prerequisites: git, an AI coding agent ([Claude Code](https://claude.com/claude-code) is the primary
+runtime), a GitHub account, and ideally the [GitHub CLI](https://cli.github.com/) (`gh`) for
+authentication. `/start` checks all of this and tells you what is missing.
+
 1. Clone this repository to where you want your root, and open it in Claude Code:
 
    ```sh
@@ -44,17 +48,19 @@ in your individual brain; proven work is promoted up, never edited into the shar
    ```
 
 2. In the chat, run **`/start`**. It establishes git access (GitHub by default), clones your brains into
-   `brains/`, and runs `/sync`. On a brand-new root with no brains configured yet, it walks you through
-   pointing at your shared brain (clone the public starter as your company brain if you have none) and
-   your individual brain.
-3. Work. Real work in the shared brain, experiments in your own; `/sync` backs everything up and pulls
+   `brains/`, validates and registers them, and runs `/sync`. On a brand-new root with no brains yet, it
+   creates them for you: your company brain starts as a clone of the public starter with origin
+   re-pointed at a private repo of your own (the public starter cannot be pushed to), and your
+   individual brain starts as your own empty private repo.
+3. Restart Claude Code when `/start` says so: the brains' own slash commands load only on restart.
+4. Work. Real work in the shared brain, experiments in your own; `/sync` backs everything up and pulls
    the latest. `/workspace-help` explains the rest.
 
 ### Commands
 
 | Command | What it does |
 |---|---|
-| `/start` | Set up or wake up the machine: git access, clone or refresh the brains, then `/sync`. |
+| `/start` | Set up or wake up the machine: git access, create or clone the brains, validate and register them, then `/sync`. |
 | `/sync` | Push your individual brain; push shared-brain content; route shared-brain core changes to a `proposal/<slug>-<topic>` branch for review; pull the latest; refresh the copied command layer and the capability index. |
 | `/save` | Commit every brain with your name on it, no push. |
 | `/promote-to-department` | Package individual work for review before it reaches the shared brain. |
@@ -86,7 +92,7 @@ subset you actively work across.
 | `CLAUDE.md`, `AGENTS.md` | root orientation for Claude Code and Codex; mirrors of each other |
 | `.claude/commands/` | the workspace commands (`start`, `sync`, `save`, `promote-to-department`, `workspace-help`) and `register-repo` |
 | `.claude/refresh-commands.sh` | the copy-up and capability-index generator, run by `/start` and `/sync` |
-| `.claude/settings.json` | the workspace's model pin and permission guards |
+| `.claude/settings.json` | the workspace's permission guards (no model pin: your own default model applies) |
 | `brains/` | the brains you work across; cloned in by `/start`, each an independent ignored repo |
 | `ADD-A-BRAIN.md` | the registration procedure for the registry root |
 | `internal/`, `external/` | registry-root children (ignored siblings) |

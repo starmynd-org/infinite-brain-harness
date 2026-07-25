@@ -30,7 +30,9 @@ work to the right brain.
 
 ### Commands
 
-- `/start`: establish git access (GitHub by default), clone or refresh every brain under `brains/`, run `/sync`.
+- `/start`: establish git access (GitHub by default), create or clone every brain under `brains/` (on a
+  fresh solo start it creates the private remotes too and re-points a starter clone's origin at the
+  person's own repo), validate and register each brain, run `/sync`.
 - `/sync`: push the individual brain freely; push shared-brain content to the shared branch; route
   shared-brain core changes to a proposal branch; pull the latest; refresh the copied command layer and
   the capability index.

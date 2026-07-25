@@ -1,0 +1,13 @@
+# Line-ending contract for this repo.
+#
+# The workspace scripts (.claude/refresh-commands.sh) and the brains mounted
+# under brains/ are parsed byte-wise by bash, so every text file must check out
+# with LF endings on every platform, regardless of the local core.autocrlf
+# setting. Without this file, Git for Windows' default autocrlf=true produces
+# CRLF checkouts that break bash ("$'\r': command not found").
+* text=auto eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf

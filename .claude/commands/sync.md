@@ -46,6 +46,18 @@ For each shared brain (every brain under `brains/` not named `individual-*`):
    Then tell the person it changes the shared brain, so it is on a review branch; ask the brain's
    maintainer to review and merge. The working copy is back on the shared branch and clean.
 
+   **Solo deployments:** when the person IS the brain's maintainer, there is no one else to ping; the
+   review branch is still worth the pause, and they review it themselves. Show the diff, and on their
+   approval merge and clean up:
+
+   ```bash
+   git -C "$b" diff <shared-branch>..proposal/<name>-<topic>
+   git -C "$b" merge --no-ff "proposal/<name>-<topic>"
+   GIT_TERMINAL_PROMPT=0 git -C "$b" push origin HEAD
+   git -C "$b" branch -d "proposal/<name>-<topic>"
+   GIT_TERMINAL_PROMPT=0 git -C "$b" push origin --delete "proposal/<name>-<topic>"
+   ```
+
 ## Step 3: Refresh the command layer and capability index
 
 ```bash

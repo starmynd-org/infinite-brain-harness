@@ -33,8 +33,9 @@ right brain concretely rather than guessing.
 
 ### Commands
 
-- `/start`: set up or wake up this machine. Establish git access (GitHub by default), clone or refresh
-  every brain under `brains/`, then run `/sync`.
+- `/start`: set up or wake up this machine. Establish git access (GitHub by default), create or clone
+  every brain under `brains/` (on a fresh solo start it creates the private remotes too and re-points a
+  starter clone's origin at the person's own repo), validate and register each brain, then run `/sync`.
 - `/sync`: back up your work and get the latest. Push your individual brain freely; push shared-brain
   content (outputs, sessions) to the shared branch; route shared-brain core changes to a
   `proposal/<slug>-<topic>` branch for review; pull the latest; refresh the copied command layer and the

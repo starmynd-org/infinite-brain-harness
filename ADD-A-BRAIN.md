@@ -1,9 +1,12 @@
 # Add a Brain
 
-The getting-started playbook for this harness. It covers the first brain, every later brain,
-and app repos, because all of them go through the same four-step registration procedure. This
-file is the single source of truth for that procedure; the `register-repo` command executes
-it, and no other file restates it.
+The registration playbook for the registry root, the harness's secondary shape. If you are
+setting up the workspace itself, this is not your entry point: start with `/start` per the
+README, which creates and mounts your brains under `brains/` and uses this file only for the
+registry-entry fields. This file covers registering child repos that live under `internal/`
+and `external/` (the first brain, every later brain, and app repos), because all of them go
+through the same four-step procedure. It is the single source of truth for that procedure;
+the `register-repo` command executes it, and no other file restates it.
 
 ## Before you start
 

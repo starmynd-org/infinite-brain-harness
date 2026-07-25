@@ -82,16 +82,32 @@ done
                      *)             role="shared brain (the default working surface; canon others rely on)" ;; esac
     echo "## $brain"
     echo "_${role}_"
-    # a one-line when-to-use from the brain's own orientation, if present
+    # a when-to-use summary from the brain's own orientation, if present: the whole
+    # first prose paragraph (wrapped lines joined), not just its first line.
     for f in "$braindir"README.md "$braindir"CLAUDE.md; do
-      [ -f "$f" ] && { line="$(grep -m1 -E '^[A-Za-z]' "$f" 2>/dev/null || true)"; [ -n "$line" ] && echo "- summary: $line"; break; }
+      if [ -f "$f" ]; then
+        line="$(awk '/^[A-Za-z]/ { found=1 } found { if (/^[[:space:]]*$/) exit; printf "%s ", $0 }' "$f" 2>/dev/null | sed 's/[[:space:]]*$//')"
+        [ -n "$line" ] && echo "- summary: $line"
+        break
+      fi
     done
-    [ -d "$braindir"knowledge ] && { ns="$(ls -1 "$braindir"knowledge 2>/dev/null | grep -v '^_' | paste -sd', ' -)"; [ -n "$ns" ] && echo "- knowledge namespaces: $ns"; }
+    if [ -d "$braindir"knowledge ]; then
+      # join with ", " (paste -sd cycles multi-character delimiter lists, so awk joins)
+      ns="$(ls -1 "$braindir"knowledge 2>/dev/null | grep -v '^_' | awk 'NR > 1 { printf ", " } { printf "%s", $0 } END { print "" }')"
+      [ -n "$ns" ] && echo "- knowledge namespaces: $ns"
+    fi
     for area in tools workflows departments; do
-      [ -d "$braindir$area" ] && { c="$(ls -1 "$braindir$area" 2>/dev/null | grep -vi readme | wc -l | tr -d ' ')"; [ "$c" != 0 ] && echo "- $area: $c"; }
+      if [ -d "$braindir$area" ]; then
+        c="$(ls -1 "$braindir$area" 2>/dev/null | grep -vi readme | wc -l | tr -d ' ')" || true
+        [ "$c" != 0 ] && echo "- $area: $c" || true
+      fi
     done
     for etype in commands agents skills; do
-      d="$braindir.claude/$etype"; [ -d "$d" ] && { c="$(ls -1 "$d" 2>/dev/null | wc -l | tr -d ' ')"; [ "$c" != 0 ] && echo "- $etype: $c (copied up; usable here after a restart)"; }
+      d="$braindir.claude/$etype"
+      if [ -d "$d" ]; then
+        c="$(ls -1 "$d" 2>/dev/null | wc -l | tr -d ' ')" || true
+        [ "$c" != 0 ] && echo "- $etype: $c (copied up; usable here after a restart)" || true
+      fi
     done
     echo
   done

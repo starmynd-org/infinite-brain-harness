@@ -2,9 +2,12 @@
 # Copy this file to .claude/brains.conf (which stays local, git-ignored) and fill in your remotes,
 # or just run /start and it will ask you and write the file for you.
 #
-# The shared brain (a company or department brain). If you have none yet, clone the public starter
-# as your company brain first: https://github.com/starmynd-org/infinite-brain-os.git
+# Every URL here must be a repository YOU can push to. If you are starting from the public starter
+# (https://github.com/starmynd-org/infinite-brain-os.git), clone it, then re-point origin at a new
+# private repo of your own and record THAT url here, never the public starter's: you cannot push to
+# the starter, so it is not a backup. /start walks you through this (Step 2a).
 acme-brain = https://github.com/your-org/acme-brain.git
 
-# Your individual brain. Name the folder individual-<your-name>.
+# Your individual brain. Name the folder individual-<your-name>. A newborn individual brain is an
+# empty private repo; the first /save plus /sync writes its initial commit.
 individual-you = https://github.com/your-org/individual-you.git
