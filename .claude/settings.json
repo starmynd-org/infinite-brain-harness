@@ -14,7 +14,6 @@
       "Bash(git diff*)",
       "Bash(bash .claude/refresh-commands.sh*)",
       "Bash(mkdir -p brains*)",
-      "Bash(curl -sS -m *)",
       "Bash(uname*)"
     ],
     "deny": [
