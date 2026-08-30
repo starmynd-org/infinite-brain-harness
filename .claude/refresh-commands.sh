@@ -80,11 +80,11 @@ MOUNT_ROOT="internal"
 #
 # `me` is deliberately not the person's name. On a two-person seat both people mount the same shared
 # brain plus their own, so `me-` means "the brain of whoever is sitting here"; a command tagged
-# `gloria-` on one machine and `will-` on the other would make the two seats disagree about what to
+# `alice-` on one machine and `bob-` on the other would make the two seats disagree about what to
 # type for the same thing.
 #
 # Format: space-separated `folder:tag:label` triples. Example:
-#   TAG_OVERRIDES="ugc-world-brain:co:UGC-World"
+#   TAG_OVERRIDES="acme-brain:co:Acme"
 TAG_OVERRIDES="${TAG_OVERRIDES:-}"
 
 derive_tag() {
