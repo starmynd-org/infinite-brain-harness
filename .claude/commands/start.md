@@ -1,7 +1,7 @@
-# /start: set up (or wake up) this workspace
+# /start: set up (or wake up) this harness
 
 Run this first on a new machine, and again each day. It establishes git access, clones your brains into
-`brains/`, validates and registers them, and syncs. Work autonomously and verify each step before the
+`internal/`, validates and registers them, and syncs. Work autonomously and verify each step before the
 next; only stop for a sign-in the person must click, and tell them exactly what to click. Report each
 step in one plain line. Set `GIT_TERMINAL_PROMPT=0` so git fails fast instead of hanging on a credential
 prompt.
@@ -36,10 +36,10 @@ prompt.
    re-pointed the brain has no backup and every later `/sync` push would fail.
 
    ```bash
-   git clone https://github.com/starmynd-org/infinite-brain-os.git brains/<name>-brain
+   git clone https://github.com/starmynd-org/infinite-brain-os.git internal/<name>-brain
    gh repo create <name>-brain --private        # or create an empty private repo in the GitHub web UI
-   git -C brains/<name>-brain remote set-url origin https://github.com/<user>/<name>-brain.git
-   GIT_TERMINAL_PROMPT=0 git -C brains/<name>-brain push -u origin main
+   git -C internal/<name>-brain remote set-url origin https://github.com/<user>/<name>-brain.git
+   GIT_TERMINAL_PROMPT=0 git -C internal/<name>-brain push -u origin main
    ```
 
 2. **Individual brain.** A newborn individual brain is an empty private repository, nothing more; the
@@ -48,7 +48,7 @@ prompt.
 
    ```bash
    gh repo create individual-<name> --private
-   git clone https://github.com/<user>/individual-<name>.git brains/individual-<name>
+   git clone https://github.com/<user>/individual-<name>.git internal/individual-<name>
    ```
 
 3. Write both lines into `.claude/brains.conf` with the person's own remote URLs.
@@ -56,9 +56,9 @@ prompt.
 ## Step 3: Clone or refresh every brain
 
 ```bash
-mkdir -p brains
+mkdir -p internal
 # for each "folder = remote" line in .claude/brains.conf:
-#   if brains/<folder>/.git is absent:  git clone <remote> brains/<folder>
+#   if internal/<folder>/.git is absent:  git clone <remote> internal/<folder>
 #   else: leave it; /sync updates it.
 ```
 
@@ -66,10 +66,10 @@ On a clone auth failure, it is the Step 1 git-access issue, not a real error: fi
 
 ## Step 4: Validate every brain that can validate
 
-For each brain under `brains/` that carries `_system/validate.sh` (any brain built from the starter):
+For each brain mounted under `internal/` that carries `_system/validate.sh` (any brain built from the starter):
 
 ```bash
-(cd brains/<folder> && bash _system/validate.sh)
+(cd internal/<folder> && bash _system/validate.sh)
 ```
 
 A fresh clone exits 0 with "All checks passed" (a small set of known warnings on the shipped example
@@ -79,7 +79,8 @@ broken; stop and report it before doing anything else.
 ## Step 5: Register each brain
 
 Each mounted brain gets one entry in `repo-registry/` so any agent orienting at this root knows what it
-is. For each brain not yet registered: copy `repo-registry/_template.md` to
+is. This is the same coverage rule every other child of `internal/` follows, so brains and app repos
+appear in one inventory. For each brain not yet registered: copy `repo-registry/_template.md` to
 `repo-registry/<folder>.md`, fill every field (`repo_kind: brain`; `brain_tier: company` for the shared
 brain, `individual` for the personal one; `remote:` is the person's own URL from `brains.conf`), and
 commit the entry at this root. `ADD-A-BRAIN.md` documents the fields. Note for solo learners: this root

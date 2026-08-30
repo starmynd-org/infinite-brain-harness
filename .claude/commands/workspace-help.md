@@ -1,9 +1,10 @@
-# /workspace-help: explain this workspace
+# /workspace-help: explain this harness
 
-Explain the workspace to the person in warm, plain words. No git jargon, no file-tree dumps. Adapt to
+Explain the harness to the person in warm, plain words. No git jargon, no file-tree dumps. Adapt to
 what they ask; if they just typed `/workspace-help`, cover this:
 
-1. **The brains.** `brains/` holds the brains you work across. The shared brain (a company or department
+1. **The brains.** `internal/` holds everything you own: the brains you work across, and any other
+   repos you run. The brains are the folders you actually work in. The shared brain (a company or department
    brain) is the default, the canon everyone relies on. Your individual brain (`individual-<your-name>`)
    is where nothing you try can break anything for anyone. Rule of thumb: real shared work in the shared
    brain, ideas and experiments in your own.
@@ -17,7 +18,7 @@ what they ask; if they just typed `/workspace-help`, cover this:
 4. **Promotion.** If something in your own brain turns out great, `/promote-to-department` packages it for
    review. If approved, everyone gets it.
 5. **Where each brain's commands come from.** `/sync` copies each brain's own commands, skills, and agents
-   up into this workspace, so they show up as slash commands here after a Claude Code restart. A copied
+   up into this harness, so they show up as slash commands here after a Claude Code restart. A copied
    command runs against its brain. `.claude/CAPABILITIES.md` lists what each brain holds so you know which
    one to reach for.
 

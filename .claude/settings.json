@@ -2,18 +2,21 @@
   "permissions": {
     "allow": [
       "Read(**)",
-      "Edit(brains/individual-*/**)",
-      "Edit(brains/*/outputs/**)",
-      "Edit(brains/*/sessions/**)",
+      "Edit(internal/individual-*/**)",
+      "Edit(internal/*/outputs/**)",
+      "Edit(internal/*/sessions/**)",
+      "Write(internal/individual-*/**)",
+      "Write(internal/*/outputs/**)",
+      "Write(internal/*/sessions/**)",
       "Bash(command -v *)",
       "Bash(gh auth *)",
       "Bash(git clone *)",
-      "Bash(git -C brains/* *)",
+      "Bash(git -C internal/* *)",
       "Bash(git status*)",
       "Bash(git log*)",
       "Bash(git diff*)",
       "Bash(bash .claude/refresh-commands.sh*)",
-      "Bash(mkdir -p brains*)",
+      "Bash(mkdir -p internal*)",
       "Bash(uname*)"
     ],
     "deny": [

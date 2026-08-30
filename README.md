@@ -1,9 +1,8 @@
 # Infinite Brain Harness
 
-A multi-brain workspace: the repos root you open in Claude Code (or Codex) to work across more than one
-Infinite Brain at once. It mounts a few brains under `brains/`, routes your work to the right one, and
-keeps them synced over git (GitHub by default). It doubles as a registry root for an operation that runs
-many repos.
+A multi-brain workspace: the harness you open in Claude Code (or Codex) to work across more than one
+Infinite Brain at once. It mounts your brains under `internal/`, routes your work to the right one, keeps
+them synced over git (GitHub by default), and keeps one registry of every repo you run.
 
 The engine is the Infinite Brain OS, the public brain starter at
 https://github.com/starmynd-org/infinite-brain-os. The harness is the mount: it holds your brains side by
@@ -22,15 +21,26 @@ exists:
    without you running git by hand.
 
 The harness solves all three. You open it, not a brain in isolation. It routes between the brains under
-`brains/`, and its `/start` and `/sync` commands do the git so you never have to.
+`internal/`, and its `/start` and `/sync` commands do the git so you never have to.
 
-## The workspace (primary)
+## One folder for everything you own: `internal/`
 
-`brains/` holds the brains you work across, each an independent git repo:
+`internal/` holds every repo your own operation owns, and the harness treats two kinds of child
+differently:
 
-- a **shared brain** (a company brain, or a department brain that graduated to its own repo): the default
-  working surface, the canon everyone relies on;
-- your **individual brain** (`individual-<name>/`): your own layer, fewer guardrails.
+- the **brains it mounts**: a **shared brain** (a company brain, or a department brain that graduated to
+  its own repo), the default working surface and the canon everyone relies on; and your **individual
+  brain** (`individual-<name>/`), your own layer with fewer guardrails. These are cloned in, validated,
+  registered, synced, and their commands are copied up so they work here;
+- **every other repo you own**: product code, client apps, tools. Registered and routed to, never
+  mounted.
+
+It tells them apart structurally rather than from a list: a child is a mounted brain when it carries both
+`.claude/` and `_system/validate.sh`, the marker every brain built from the starter has and no app repo
+does. So an app repo can carry its own `.claude/` without its commands leaking into the root.
+
+`external/` is the other half of the ownership axis: repos a client owns or that are co-operated with an
+outside party, grouped under `external/<group>/`. Brains are never mounted from `external/`.
 
 The routing rule: real and shared work goes to the shared brain; anything experimental or unproven starts
 in your individual brain; proven work is promoted up, never edited into the shared brain directly.
@@ -44,11 +54,11 @@ authentication. `/start` checks all of this and tells you what is missing.
 1. Clone this repository to where you want your root, and open it in Claude Code:
 
    ```sh
-   git clone https://github.com/starmynd-org/infinite-brain-harness.git repos
+   git clone https://github.com/starmynd-org/infinite-brain-harness.git harness
    ```
 
 2. In the chat, run **`/start`**. It establishes git access (GitHub by default), clones your brains into
-   `brains/`, validates and registers them, and runs `/sync`. On a brand-new root with no brains yet, it
+   `internal/`, validates and registers them, and runs `/sync`. On a brand-new harness with no brains, it
    creates them for you: your company brain starts as a clone of the public starter with origin
    re-pointed at a private repo of your own (the public starter cannot be pushed to), and your
    individual brain starts as your own empty private repo.
@@ -64,26 +74,23 @@ authentication. `/start` checks all of this and tells you what is missing.
 | `/sync` | Push your individual brain; push shared-brain content; route shared-brain core changes to a `proposal/<slug>-<topic>` branch for review; pull the latest; refresh the copied command layer and the capability index. |
 | `/save` | Commit every brain with your name on it, no push. |
 | `/promote-to-department` | Package individual work for review before it reaches the shared brain. |
-| `/workspace-help` | Explain the workspace in plain words. |
+| `/workspace-help` | Explain the harness in plain words. |
 | `register-repo` | Register a child repo in the registry (see the registry root, below). |
 
 Each brain's own commands, skills, agents, and rules are copied up into this root by `/sync` so they work
 as slash commands here (after a Claude Code restart). `.claude/CAPABILITIES.md`, regenerated on sync,
 lists what each brain holds so you route work to the right one.
 
-## The registry root (secondary)
+## The registry
 
-An operation that runs many repos, several brains plus product and client codebases, also uses this root
-as a registry. Child repos live under `internal/` (repos you own) and `external/` (client-owned or
-co-operated, grouped under `external/<group>/`), each an independent git repo the harness ignores and
-knows only through a `repo-registry/` entry.
+Every child under `internal/` and `external/` is an independent git repo the harness ignores and knows
+only through a `repo-registry/` entry, mounted brains included, so one inventory covers everything.
 
 Brains come in three tiers: one **company brain** (the standard-setter and upstream core), an
 **individual brain per person**, and **department brains** that graduate from folders to their own repo
 only when a real trust boundary fires. **App repos** are ordinary siblings with `repo_kind: app`, no
 brain ontology and no tier. To register a repo, follow `ADD-A-BRAIN.md` or run `register-repo`; the
-result is one new file under `repo-registry/`. The registry is the full map of the root; `brains/` is the
-subset you actively work across.
+result is one new file under `repo-registry/`. `/start` writes the entry for each brain it mounts.
 
 ## Layout
 
@@ -92,17 +99,17 @@ subset you actively work across.
 | `CLAUDE.md`, `AGENTS.md` | root orientation for Claude Code and Codex; mirrors of each other |
 | `.claude/commands/` | the workspace commands (`start`, `sync`, `save`, `promote-to-department`, `workspace-help`) and `register-repo` |
 | `.claude/refresh-commands.sh` | the copy-up and capability-index generator, run by `/start` and `/sync` |
-| `.claude/settings.json` | the workspace's permission guards (no model pin: your own default model applies) |
-| `brains/` | the brains you work across; cloned in by `/start`, each an independent ignored repo |
-| `ADD-A-BRAIN.md` | the registration procedure for the registry root |
-| `internal/`, `external/` | registry-root children (ignored siblings) |
+| `.claude/settings.json` | the harness's permission guards (no model pin: your own default model applies) |
+| `internal/` | everything you own: the brains `/start` mounts, plus your other repos. All ignored |
+| `external/` | client-owned or co-operated repos, grouped under `external/<group>/`. All ignored |
+| `ADD-A-BRAIN.md` | the registration procedure |
 | `repo-registry/` | one entry per registered child |
 
 ## What the harness never carries
 
 - no brain content of its own: knowledge, doctrine, and entities live inside a brain
-- no child repo state: the brains under `brains/` and the children under `internal/`/`external/` are
-  independent git repos with their own remotes; the harness ignores their contents and provides no backup
+- no child repo state: every child under `internal/` and `external/`, brains included, is an independent
+  git repo with its own remote; the harness ignores their contents and provides no backup
 - no live runtime state or secrets: the copied command layer and the capability index are generated,
   git-ignored, and regenerated by `/sync`; they are read-only downstream and never a second source of
   truth; local agent settings stay untracked

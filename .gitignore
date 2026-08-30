@@ -1,8 +1,6 @@
-# Brains mounted under brains/ are independent git repos, cloned in by /start, never tracked.
-brains/*
-!brains/README.md
-
-# Registry-root children (secondary use) are independent repos, known only via repo-registry/.
+# Children under internal/ and external/ are independent git repos, never tracked here. This covers
+# both the brains this harness mounts and the app repos it merely registers; the harness knows every
+# one of them only through its repo-registry/ entry.
 internal/*
 !internal/README.md
 external/*
@@ -21,6 +19,8 @@ external/*
 .claude/agents/
 .claude/skills/
 .claude/rules/
+# Root-owned commands are versioned by the negations below. A negation missing here silently stops
+# versioning that command; the set must match PROTECTED_COMMANDS in .claude/refresh-commands.sh.
 .claude/commands/*
 !.claude/commands/start.md
 !.claude/commands/sync.md

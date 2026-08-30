@@ -7,7 +7,7 @@ road from individual work to the shared brain; nobody edits shared core directly
 
 1. Ask, if not obvious: which piece of work do you want to propose, and in one sentence, why is it ready?
 2. Create a dated candidate folder in the individual brain:
-   `brains/individual-<name>/promote-queue/<YYYY-MM-DD>-<slug>/`, and copy the relevant files into it
+   `internal/individual-<name>/promote-queue/<YYYY-MM-DD>-<slug>/`, and copy the relevant files into it
    (copy, do not move).
 3. Write `PROMOTION-NOTE.md` inside it: what this is, why it should be shared, the best-guess target path
    in the shared brain, and proposed-by plus today's date.
