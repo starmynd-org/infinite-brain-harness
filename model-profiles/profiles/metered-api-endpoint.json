@@ -1,0 +1,49 @@
+{
+  "contract_version": "0.1.0-draft.5",
+  "profile_id": "model:metered-api-endpoint",
+  "placement": "vendor_cloud",
+  "capability": {
+    "task_classes": [
+      "classification",
+      "extraction",
+      "review"
+    ],
+    "modalities": [
+      "text",
+      "tool_use"
+    ],
+    "context_window": 200000,
+    "quality_evidence": {
+      "status": "unmeasured"
+    }
+  },
+  "auth_mode": "api_key_reference",
+  "auth_ref": {
+    "secret_ref_id": "vault:model.metered-api-endpoint",
+    "backend": "customer-vault"
+  },
+  "billing": {
+    "mode": "metered_api",
+    "quota": {
+      "status": "known",
+      "limit": 0,
+      "unit": "authorized-spend-usd"
+    },
+    "automatic_spend": false
+  },
+  "execution_surface": "http_api",
+  "data_classes_allowed": [
+    "public",
+    "internal"
+  ],
+  "egress": {
+    "policy": "provider_only"
+  },
+  "availability": {
+    "state": "unknown"
+  },
+  "fallback_targets": [],
+  "routing": {
+    "mode": "advisory"
+  }
+}

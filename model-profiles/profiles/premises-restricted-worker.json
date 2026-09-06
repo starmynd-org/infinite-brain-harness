@@ -1,0 +1,50 @@
+{
+  "contract_version": "0.1.0-draft.5",
+  "profile_id": "model:premises-restricted-worker",
+  "placement": "lan",
+  "capability": {
+    "task_classes": [
+      "classification",
+      "extraction",
+      "packet_preparation"
+    ],
+    "modalities": [
+      "text"
+    ],
+    "context_window": 65536,
+    "quality_evidence": {
+      "status": "unmeasured"
+    }
+  },
+  "auth_mode": "api_key_reference",
+  "auth_ref": {
+    "secret_ref_id": "vault:model.premises-restricted-worker",
+    "backend": "customer-vault"
+  },
+  "billing": {
+    "mode": "free_local",
+    "quota": {
+      "status": "unknown"
+    },
+    "automatic_spend": false
+  },
+  "execution_surface": "http_api",
+  "data_classes_allowed": [
+    "public",
+    "internal",
+    "confidential",
+    "restricted"
+  ],
+  "egress": {
+    "policy": "none"
+  },
+  "availability": {
+    "state": "unknown"
+  },
+  "fallback_targets": [
+    "model:local-inference-worker"
+  ],
+  "routing": {
+    "mode": "off"
+  }
+}
