@@ -1,0 +1,44 @@
+{
+  "contract_version": "0.1.0-draft.5",
+  "profile_id": "model:native-provider-seat",
+  "placement": "vendor_cloud",
+  "capability": {
+    "task_classes": [
+      "packet_preparation",
+      "review",
+      "classification"
+    ],
+    "modalities": [
+      "text",
+      "tool_use"
+    ],
+    "context_window": "unknown",
+    "quality_evidence": {
+      "status": "unmeasured"
+    }
+  },
+  "auth_mode": "native_session",
+  "auth_ref": null,
+  "billing": {
+    "mode": "subscription_seat",
+    "quota": {
+      "status": "unknown"
+    },
+    "automatic_spend": false
+  },
+  "execution_surface": "native_client",
+  "data_classes_allowed": [
+    "public",
+    "internal"
+  ],
+  "egress": {
+    "policy": "provider_only"
+  },
+  "availability": {
+    "state": "unknown"
+  },
+  "fallback_targets": [],
+  "routing": {
+    "mode": "advisory"
+  }
+}

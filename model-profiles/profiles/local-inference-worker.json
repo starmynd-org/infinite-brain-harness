@@ -1,0 +1,44 @@
+{
+  "contract_version": "0.1.0-draft.5",
+  "profile_id": "model:local-inference-worker",
+  "placement": "local",
+  "capability": {
+    "task_classes": [
+      "classification",
+      "extraction"
+    ],
+    "modalities": [
+      "text"
+    ],
+    "context_window": 32768,
+    "quality_evidence": {
+      "status": "unmeasured"
+    }
+  },
+  "auth_mode": "none",
+  "auth_ref": null,
+  "billing": {
+    "mode": "free_local",
+    "quota": {
+      "status": "unknown"
+    },
+    "automatic_spend": false
+  },
+  "execution_surface": "local_process",
+  "data_classes_allowed": [
+    "public",
+    "internal",
+    "confidential",
+    "restricted"
+  ],
+  "egress": {
+    "policy": "none"
+  },
+  "availability": {
+    "state": "unknown"
+  },
+  "fallback_targets": [],
+  "routing": {
+    "mode": "off"
+  }
+}
