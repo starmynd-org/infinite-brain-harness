@@ -71,8 +71,8 @@ The guard lives in the runtime, not here, because this directory may hold only d
 documents:
 
 ```
-python3 -m adapter.model_providers.catalog --audit <path-to-this-directory>/profiles
-python3 -m adapter.model_providers.catalog --load  <path-to-this-directory>/profiles
+python3 -m adapter.model_providers --audit <path-to-this-directory>/profiles
+python3 -m adapter.model_providers --load  <path-to-this-directory>/profiles
 ```
 
 The audit fails on an endpoint, a capacity figure, a live allowance reading, a declared
