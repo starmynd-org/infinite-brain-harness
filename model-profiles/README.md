@@ -82,8 +82,8 @@ rather than one that has only ever been green.
 
 ## Status
 
-Contract: `model-profile` at `0.1.0-draft.5`, digest
-`sha256:fb42d422a7ae834c2faf5523aad57d97786e51dfbe67360d26b92802ddcb6a10`. **Draft, not pinned**;
+Contract: `model-profile` at `0.1.0-draft.6`, digest
+`sha256:224cd1c3dcfae0d959d667114cf8aa15ed245ca366e68866c79540b878650fb5`. **Draft, not pinned**;
 expect a reconciliation delta when the contract pins.
 
 The four documents in `profiles/` are **shape examples covering the four combinations the runtime

@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.1.0-draft.5",
+  "contract_version": "0.1.0-draft.6",
   "profile_id": "model:local-inference-worker",
   "placement": "local",
   "capability": {
