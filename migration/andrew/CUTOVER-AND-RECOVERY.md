@@ -72,6 +72,18 @@ Re-run the inventory against the new root and compare, row by row: same reposito
 same HEADs, same dirty and untracked counts, same marker census. A difference is a finding to explain
 before continuing, not a rounding error.
 
+**Compare canonical paths, never raw strings.** One directory has two spellings here (`C:/Users/...`
+and `/mnt/c/Users/...`), so a comparison that expands one spelling forward only works when the other
+side happens to be written the way you assumed. Fold both sides to a common form instead, and derive
+the prefix from the data rather than hardcoding it. `inventory.sh` does this and takes the mount root
+from `WSL_MOUNT_PREFIX`, because WSL's mount root is configuration.
+
+This is not a theoretical tidiness point. Terminal 12 measured the same problem one layer down during
+R06: a comparison between packaged and installed systemd units folded paths in one direction only,
+reported **all twelve service units as changed**, and buried the single real drift among twelve false
+findings. A verification step that produces that many false positives is worse than no verification
+step, because it teaches the operator to skim the output.
+
 ### F. Services, timers and everything that is not a file
 
 A file copy moves none of this. Each item is a change with its own rollback, and each one must be
@@ -87,6 +99,17 @@ named in the approval packet before it is touched.
 The enumeration is the operator's, because only the operator can see the host. What this file
 supplies is the rule: nothing in this list may be changed as a side effect of the migration. Each is a
 separate, named, reversible change.
+
+**Two rules for inferring anything from installed host state**, both measured by Terminal 12 during
+R06 rather than reasoned about:
+
+1. **Restrict the inference to units your own repositories ship.** Their path inference refused to
+   settle on a value until a third-party unit was excluded: `buzz-agent.service`, another program's,
+   sets `WorkingDirectory=%h/brain-ro` and made the answer non-unanimous. Anything that reads the
+   host's service files and expects one answer has to say whose files it is reading.
+2. **Take the prefix from the installed artifact's own `WorkingDirectory`**, folding host paths back
+   to a token, rather than expanding a token forward into a path you assumed. Same rule as phase E,
+   applied to services instead of repositories.
 
 ### G. Retire, later, separately
 

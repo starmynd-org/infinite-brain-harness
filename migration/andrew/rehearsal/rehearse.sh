@@ -319,6 +319,32 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# R7b. The inventory must not call a Windows-spelled worktree foreign.
+#
+# The same two-spellings problem, one layer up. A manifest that reports "this worktree lives outside
+# the root" for 25 live worktrees sends the operator looking for repositories that are already here.
+# The comparison has to fold both spellings, not expand one forward, or it only works when the root
+# happens to be written the other way. (Rule from Terminal 12's R06 measurement: their unit
+# comparison reported twelve service units changed and buried the one real drift.)
+# ---------------------------------------------------------------------------
+ELIGIBLE=$((ELIGIBLE+1))
+printf 'gitdir: %s/internal/with-worktree/.git/worktrees/feature\n' "$WIN_FORM" > "$NEW/_worktrees/feature/.git"
+printf '%s/_worktrees/feature/.git\n' "$WIN_FORM" > "$NEW/internal/with-worktree/.git/worktrees/feature/gitdir"
+INV_OUT="$SCRATCH/inventory-out"
+WSL_MOUNT_PREFIX="$MNT" bash "$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")/inventory.sh" \
+  "$NEW" "$INV_OUT" >/dev/null 2>&1
+FOREIGN=$(awk -F'\t' 'NR>1 && $2=="internal/with-worktree" {print $10}' "$INV_OUT/estate-inventory.tsv" 2>/dev/null)
+OUTSIDE_NOTE=$(grep -c 'OUTSIDE-ROOT' "$INV_OUT/estate-findings.txt" 2>/dev/null)
+# Restore the mapped form so the later assertions see a working worktree.
+printf 'gitdir: %s/internal/with-worktree/.git/worktrees/feature\n' "$MAPPED" > "$NEW/_worktrees/feature/.git"
+printf '%s/_worktrees/feature/.git\n' "$MAPPED" > "$NEW/internal/with-worktree/.git/worktrees/feature/gitdir"
+if [ "$FOREIGN" = "0" ] && [ "$OUTSIDE_NOTE" = "0" ]; then
+  ok "inventory-folds-both-spellings (a Windows-form worktree inside the root is counted inside, not reported as living elsewhere)"
+else
+  bad "inventory-folds-both-spellings" "outside_root column=${FOREIGN:-unset} OUTSIDE-ROOT findings=${OUTSIDE_NOTE:-unset} (expected 0 and 0)"
+fi
+
+# ---------------------------------------------------------------------------
 # R8. The private marker. A migration moves a brain; it does not export one. Every export_class value
 # must arrive unchanged, and the private node must still be private and still be present.
 # ---------------------------------------------------------------------------

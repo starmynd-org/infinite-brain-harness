@@ -47,6 +47,31 @@ case "$OUT_ABS/" in
 esac
 
 mkdir -p "$OUT_ABS" || { printf 'inventory: cannot create %s\n' "$OUT_ABS" >&2; exit 2; }
+# WSL's mount root is configuration (wsl.conf can move it), so it is a parameter here rather than a
+# constant. Nothing else in this script assumes /mnt exists.
+MOUNT_PREFIX="${WSL_MOUNT_PREFIX:-/mnt}"
+
+# Every spelling this root can legitimately be written as: as given, plus the drive-letter form of a
+# mounted path, plus the mounted form of a drive-letter path. A path is inside the root if it starts
+# with any of them.
+ROOT_SPELLINGS=("$ROOT")
+case "$ROOT" in
+  "$MOUNT_PREFIX"/[a-zA-Z]/*)
+    ROOT_SPELLINGS+=("$(printf '%s' "$ROOT" | sed "s#^$MOUNT_PREFIX/\([a-zA-Z]\)/#\U\1:/#")") ;;
+  [a-zA-Z]:/*)
+    ROOT_SPELLINGS+=("$(printf '%s' "$ROOT" | sed "s#^\([a-zA-Z]\):/#$MOUNT_PREFIX/\L\1/#")") ;;
+esac
+
+inside_root() {
+  local path="${1//\\//}" p
+  for p in "${ROOT_SPELLINGS[@]}"; do
+    case "$path" in "$p"/*|"$p") return 0 ;; esac
+    # Drive letters are case-insensitive on the side that has them.
+    case "$(printf '%s' "$path" | tr 'A-Z' 'a-z')" in "$(printf '%s' "$p" | tr 'A-Z' 'a-z')"/*) return 0 ;; esac
+  done
+  return 1
+}
+
 TSV="$OUT_ABS/estate-inventory.tsv"
 NOTES="$OUT_ABS/estate-findings.txt"
 : > "$TSV"
@@ -76,10 +101,19 @@ scan_repo() {
   wt_total=$((wt_total > 0 ? wt_total - 1 : 0))
   wt_prunable=$(git -C "$dir" worktree list --porcelain 2>/dev/null | grep -c '^prunable')
   # A worktree recorded as C:/Users/... is INSIDE this root when the root is /mnt/c/Users/...; only the
-  # path form differs. Normalising before the comparison is the difference between a manifest that
-  # says "25 worktrees live elsewhere" and one that says "25 live here and are unreadable from WSL".
-  wt_foreign=$(git -C "$dir" worktree list --porcelain 2>/dev/null | sed -n 's/^worktree //p' | tail -n +2 \
-    | sed 's#^\([A-Za-z]\):/#/mnt/\L\1/#' | grep -vc "^$ROOT" 2>/dev/null)
+  # path form differs. Getting this wrong is the difference between a manifest that says "25
+  # worktrees live elsewhere" and one that says "25 live here and are unreadable from WSL".
+  #
+  # The comparison folds BOTH sides rather than expanding one spelling forward, because expanding
+  # forward only works when the root happens to be given in the other spelling: run this from Git
+  # Bash with a C:/ root and every worktree would normalise away from it and be counted foreign.
+  # (Rule and blast radius from Terminal 12's R06 measurement, where the same two-spellings problem
+  # reported twelve service units as changed and buried the one real drift.)
+  wt_foreign=0
+  while IFS= read -r wt; do
+    [ -z "$wt" ] && continue
+    inside_root "$wt" || wt_foreign=$((wt_foreign + 1))
+  done < <(git -C "$dir" worktree list --porcelain 2>/dev/null | sed -n 's/^worktree //p' | tail -n +2)
 
   default_branch=$(git -C "$dir" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
   [ -z "$default_branch" ] && default_branch='unknown'
