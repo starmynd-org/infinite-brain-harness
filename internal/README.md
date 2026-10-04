@@ -13,7 +13,7 @@ The harness registers these and routes to them, but never mounts them.
 
 The harness tells the two apart structurally, not from a list: a child is treated as a mounted brain
 when it carries both `.claude/` and `_system/validate.sh`, the marker every brain built from the
-Infinite Brain OS starter has and no app repo does. That is why an app repo can carry its own
+Infinite Brain starter has and no app repo does. That is why an app repo can carry its own
 `.claude/` without its commands leaking into this root.
 
 Each child is an independent git repo with its own remote and its own history. The harness ignores

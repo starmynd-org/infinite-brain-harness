@@ -4,7 +4,7 @@ A multi-brain workspace: the harness you open in Claude Code (or Codex) to work 
 Infinite Brain at once. It mounts your brains under `internal/`, routes your work to the right one, keeps
 them synced over git (GitHub by default), and keeps one registry of every repo you run.
 
-The engine is the Infinite Brain OS, the public brain starter at
+The engine is the Infinite Brain, the public brain starter at
 https://github.com/starmynd-org/infinite-brain-os. The harness is the mount: it holds your brains side by
 side and keeps agents oriented and synced across them.
 

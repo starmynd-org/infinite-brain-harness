@@ -29,6 +29,6 @@ external/*
 !.claude/commands/workspace-help.md
 !.claude/commands/register-repo.md
 
-# OS noise.
+# Operating system noise.
 .DS_Store
 Thumbs.db

@@ -20,7 +20,7 @@ child, and the difference is what the harness does with them, not where they sit
 
 The harness tells them apart **structurally, not from a list**: a child is a mounted brain when it
 carries both `.claude/` and `_system/validate.sh`, the marker every brain built from the Infinite Brain
-OS starter has and no app repo does. A hand-kept list would be wrong the first time a brain was added,
+starter has and no app repo does. A hand-kept list would be wrong the first time a brain was added,
 and the failure would be silent: the new brain's commands would simply never appear and nobody would be
 told why. It also means an app repo can carry its own `.claude/` without leaking commands into this root,
 which matters, because plenty of them do.
