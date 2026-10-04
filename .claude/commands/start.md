@@ -11,7 +11,7 @@ prompt.
 - Confirm git is installed and `user.name` and `user.email` are set. If not, set them (ask once).
 - Confirm the git host is reachable and authenticated. GitHub is the default backend: check `gh auth
   status`, or an SSH key, or a credential helper. If `gh` is not installed, point the person at
-  https://cli.github.com/ (one installer per OS), then have them run `gh auth login` and pick HTTPS plus
+  https://cli.github.com/ (one installer per operating system), then have them run `gh auth login` and pick HTTPS plus
   browser sign-in; an SSH key per GitHub's docs works equally well. If a later clone fails with an auth
   error, it is this step unfinished: fix auth and retry. Never store a token in the repo. An alternate
   backend (a self-hosted or access-gated git host) only changes the remote URL and its sign-in; the rest

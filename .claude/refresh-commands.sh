@@ -10,7 +10,7 @@
 # app repos. Plenty of app repos carry a .claude/ of their own, and sweeping those up would pollute
 # this root with commands that have nothing to do with any brain. So a child of internal/ is a mount
 # source only when it carries BOTH .claude/ AND _system/validate.sh, the marker every brain built from
-# the Infinite Brain OS starter has and no app repo does. That is a structural test, not a hand-kept
+# the Infinite Brain starter has and no app repo does. That is a structural test, not a hand-kept
 # list: add a brain and it is picked up with nothing to register, which matters because the failure
 # mode of a hand-kept list is silent (the new brain's commands simply never appear and nobody is told
 # why).
